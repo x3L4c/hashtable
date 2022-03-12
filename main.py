@@ -8,16 +8,14 @@ DistanceIndexHashtable = HashTable()
 timedeliveryHT = HashTable()
 
 
-truck1 = []
-truck2 = [18, 36, 38]
-truck3 = []
+truck1 = [1,2,4,5,7,8,10,11,12,17,21,22,23,24,26,27,29,30]
+truck2 = [3, 18, 36, 38,6,25,28,32,9]
+truck3 = [30,31,33,34,35,37,39,40,13,14,15,16,19,20]
 
 totalDistnace = 0
 t1Distance = 0
 t2Distance = 0
 t3Distance = 0
-for x in range(1, 10):
-    truck1.append(x)
 
 numberofpackages = 0
 
@@ -138,18 +136,21 @@ def addTime(time, distance):
 
 
 def getstatus():
-    for x in range(1, numberofpackages):
-        print("Package "+ x + PackageHashtable.get(str(x)).status)
+    for package in range(1, numberofpackages):
+        print("Package "+ package + PackageHashtable.get(str(package)).status)
 
 
 #changes package status to delivered
-def statusdelivered(packageid):
+def statusdelivered(packageid, trucknum):
     packageid = str(packageid)
     package = PackageHashtable.get(packageid)
     package.status = "delivered"
-    package.timedelivered = str(timecount.time())
+    if trucknum == 1 or 3:
+        package.timedelivered = str(timecount.time())
+    if trucknum == 2:
+        package.timedelivered = str(timecount2.time())
     # PackageHashtable.delete(packageid)
-    PackageHashtable.insert(packageid,package)
+    PackageHashtable.insert(packageid, package)
 
 
 #changes package status to enroute
@@ -211,25 +212,29 @@ elif input_main == "end":
 count = 0
 
 lastDelivered = 0
+
 while truck1 != []:
+
     if t1Distance == 0:
         lastDelivered = start_deliveryPackage(truck1)
         t1Distance += start_deliveryDistance(lastDelivered)
         truck1.remove(lastDelivered)
         timecount = addTime(timecount, t1Distance)
-        statusdelivered(lastDelivered)
+        statusdelivered(lastDelivered, 1)
 
-    if(input_main == "2"):
-        if (input_time > timecount.time()):
-            break
-            # timedeliveryHT.insert(lastDelivered, PackageHashtable.get(str(lastDelivered)))
 
     nextDistance = nearest_neighborDistance(lastDelivered, truck1)
     t1Distance += nextDistance
     lastDelivered = nearest_neighborPackage(lastDelivered, truck1)
     truck1.remove(lastDelivered)
+
+    # placement before added to timecount to determine if package is in the right time.
+    if(input_main == "2"):
+        if (input_time < addTime(timecount, nextDistance).time()):
+            break
+
     timecount = addTime(timecount, nextDistance)
-    statusdelivered(lastDelivered)
+    statusdelivered(lastDelivered, 1)
     if truck1 == []:
         nextDistance = find_distance(0, getDistanceIndex(lastDelivered))
         t1Distance += nextDistance
@@ -239,45 +244,66 @@ while truck1 != []:
 
 
 while truck2 != []:
+
     if t2Distance == 0:
+
+        if input_main == "2":
+            if input_time < timecount2.time():
+                break
+
         lastDelivered = start_deliveryPackage(truck2)
-        t2Distance += start_deliveryDistance(truck2)
+        t2Distance += start_deliveryDistance(lastDelivered)
         truck2.remove(lastDelivered)
         timecount2 = addTime(timecount2, t2Distance)
-        statusdelivered(lastDelivered)
 
-    if (input_main == "2"):
-        if (input_time > timecount.time()):
-            break
+        if input_main == "2":
+            if input_time < timecount2.time():
+                break
+        statusdelivered(lastDelivered, 2)
 
     nextDistance = nearest_neighborDistance(lastDelivered, truck2)
     t2Distance += nextDistance
     lastDelivered = nearest_neighborPackage(lastDelivered, truck2)
     truck2.remove(lastDelivered)
+
+    if (input_main == "2"):
+        if (input_time < addTime(timecount2, nextDistance).time()):
+            break
+
     timecount2 = addTime(timecount2, nextDistance)
-    statusdelivered(lastDelivered)
+    statusdelivered(lastDelivered, 2)
     if truck2 == []:
         t2Distance += find_distance(0, getDistanceIndex(lastDelivered))
         t2Distance += nextDistance
         timecount2 = addTime(timecount2, nextDistance)
 
 
+
 while truck3 != []:
+
     if t3Distance == 0:
-        t3Distance += start_deliveryDistance(truck3)
+
+        if (input_main == "2"):
+            if (input_time < addTime(timecount, nextDistance).time()):
+                break
+
         lastDelivered = start_deliveryPackage(truck3)
+        t3Distance += start_deliveryDistance(lastDelivered)
         truck3.remove(lastDelivered)
         timecount = addTime(timecount, t3Distance)
-        statusdelivered(lastDelivered)
+        statusdelivered(lastDelivered, 3)
 
-    if (input_main == "2"):
-        if (input_time > timecount.time()):
-            break
     nextDistance = nearest_neighborDistance(lastDelivered, truck3)
     t3Distance += nextDistance
     lastDelivered = nearest_neighborPackage(lastDelivered, truck3)
     truck3.remove(lastDelivered)
-    statusdelivered(lastDelivered)
+
+    if (input_main == "2"):
+        if (input_time < addTime(timecount, nextDistance).time()):
+            break
+
+    timecount = addTime(timecount, nextDistance)
+    statusdelivered(lastDelivered, 3)
     if truck3 == []:
         t3Distance += find_distance(0, getDistanceIndex(lastDelivered))
         t3Distance += nextDistance
@@ -288,8 +314,12 @@ while truck3 != []:
 
 # PackageHashtable.print()
 # lookup()
+totalDistnace = t1Distance + t2Distance + t3Distance
 
+if (input_main == "1"):
+    print(totalDistnace)
 
-# if ((timecount.time() > datetime.datetime.strptime('8:35:00', '%H:%M:%S').time())):
-#     for x in range(1, numberofpackages):
-#         print(str(x) + ": " + PackageHashtable.get(str(x)).status + " " + PackageHashtable.get(str(x)).timedelivered)
+if (input_main == "2"):
+    for x in range(1, numberofpackages+1):
+        print(str(x) + ": " + PackageHashtable.get(str(x)).status + " " + PackageHashtable.get(str(x)).timedelivered)
+
