@@ -8,9 +8,9 @@ DistanceIndexHashtable = HashTable()
 timedeliveryHT = HashTable()
 
 
-truck1 = [1,2,4,5,7,8,10,11,12,17,21,22,23,24,26,27,29,30]
-truck2 = [3, 18, 36, 38,6,25,28,32,9]
-truck3 = [30,31,33,34,35,37,39,40,13,14,15,16,19,20]
+truck1 = [1, 2, 4, 5, 7, 8, 10, 11, 12, 17, 21, 22, 23, 24, 26, 27, 29, 30]
+truck2 = [3, 6, 9, 18, 25, 28, 32, 36, 38]
+truck3 = [13, 14, 15, 16, 19, 20, 30, 31, 33, 34, 35, 37, 39, 40]
 
 totalDistnace = 0
 t1Distance = 0
@@ -194,14 +194,6 @@ if input_main == "2":
             break
 
 
-elif input_main == "3":
-    while True:
-        input_packageid = input("Enter a package id: ")
-        if input_packageid in (range(1, 40)):
-            break
-        else:
-            print("invalid input")
-
 
 elif input_main == "end":
     exit()
@@ -323,3 +315,11 @@ if (input_main == "2"):
     for x in range(1, numberofpackages+1):
         print(str(x) + ": " + PackageHashtable.get(str(x)).status + " " + PackageHashtable.get(str(x)).timedelivered)
 
+
+if input_main == "3":
+    while True:
+        input_packageid = input("Enter a package id: ")
+        if int(input_packageid) in (range(1, 40)):
+            print(PackageHashtable.get(input_packageid))
+        else:
+            print("invalid input")
