@@ -155,7 +155,7 @@ def start_truck(truck, distance, count):
     truck1.remove(last_delivered)
     add_time(count, distance)
     # updates the status and delivery time
-    status_delivered(last_delivered)
+    status_delivered(last_delivered, truck)
 
 
 # first input from user
@@ -165,7 +165,7 @@ while True:
                        "3: Individual package status\n"
                        "or 'end' to exit\n\n"
                        "Enter: ")
-    if input_main not in ("1", "2", "3", "end"):
+    if input_main in ("1", "2", "3", "end"):
         break
     else:
         print("invalid input")
