@@ -9,7 +9,7 @@ class Package:
         self.weight = weight
         self.note = note
         self.status = status
-        self.timedelivered = timedelivered
+        self.time_delivered = timedelivered
 
     def __repr__(self):
         return "Package ID: %s\n" \
@@ -20,7 +20,5 @@ class Package:
                "Weight: %s lbs\n" \
                "Delivery Status: %s\n" \
                "Delivery time: %s" % (self.package_id, self.address, self.city, self.state,
-                                                           self.zipcode, self.weight,
-                                                           self.status, self.timedelivered)
-
-
+                                      self.zipcode, self.weight,
+                                      self.status, self.time_delivered)
