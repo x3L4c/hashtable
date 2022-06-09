@@ -146,7 +146,7 @@ def status_delivered(package_id, truck_id):
     package_hashtable.insert(package_id, package)
 
 
-# changes package status to enroute
+# changes package status to en route
 # time complexity: O(1)   hashtable look up and insert has a constant time
 def status_enroute(package_id):
     package_id = str(package_id)
