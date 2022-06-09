@@ -178,6 +178,7 @@ while True:
     else:
         print("invalid input")
 
+
 if input_main == "2":
     while True:
         try:
@@ -302,7 +303,11 @@ if input_main == "1":
 # time complexity: O(n)  time grows linearly with increased packages
 if input_main == "2":
     for x in range(1, package_amount + 1):
-        print(str(x) + ": " + package_hashtable.get(str(x)).status + " " + package_hashtable.get(str(x)).time_delivered)
+        if package_hashtable.get(str(x)).status == "delivered":
+            print(str(x) + ": " + package_hashtable.get(str(x)).status + " at: " + package_hashtable.get(
+                str(x)).time_delivered + " to: " + package_hashtable.get(str(x)).address)
+        else:
+            print(str(x) + ": " + package_hashtable.get(str(x)).status + " " + package_hashtable.get(str(x)).time_delivered)
 
 
 if input_main == "3":

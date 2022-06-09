@@ -1,16 +1,19 @@
 class HashTable:
+
     def __init__(self):
         # initialize the size of the hashmap. Set all positions to None
         self.size = 64
         self.map = [None] * self.size
 
     def _get_hash(self, key):
-        # turn the key into a usable index
+        # turn the key into an index using unicode
         hash = 0
         for char in str(key):
             hash += ord(char)
         return hash % self.size
 
+    # time complexity: O(1)  when looking at best case with lowest amount of collisions, as collisions increase the time
+    # complexity will also increase.
     def insert(self, key, value):
         # index value
         key_hash = self._get_hash(key)
@@ -36,18 +39,20 @@ class HashTable:
             self.map[key_hash].append(key_value)
             return True
 
-
+    # time complexity: O(1)  when looking at best case with lowest amount of collisions, as collisions increase the time
+    # complexity will also increase.
     def get(self, key):
         # get index
         key_hash = self._get_hash(key)
         if self.map[key_hash] is not None:
-            # iterate though the keys in the cell
+            # iterate through the keys in the cell
             for pair in self.map[key_hash]:
                 if pair[0] == key:
                     return pair[1]
         return None
 
-
+    # time complexity: O(1)  when looking at best case with lowest amount of collisions, as collisions increase the time
+    # complexity will also increase.
     def delete(self, key):
         # key index
         key_hash = self._get_hash(key)
@@ -61,14 +66,5 @@ class HashTable:
                 # when found remove item from the list
                 self.map[key_hash].pop(i)
                 return True
-
-
-    def print(self):
-        # prints out every non-none cell of the array
-        for item in self.map:
-            if item is not None:
-                print(str(item))
-
-
 
 
