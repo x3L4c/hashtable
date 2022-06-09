@@ -61,7 +61,7 @@ class HashTable:
             return False
 
         # use range since to find the index in order to remove an element
-        for i in range (0, len(self.map[key_hash])):
+        for i in range(0, len(self.map[key_hash])):
             if self.map[key_hash][i][0] == key:
                 # when found remove item from the list
                 self.map[key_hash].pop(i)
