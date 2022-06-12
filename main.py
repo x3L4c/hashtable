@@ -4,6 +4,7 @@ Alex Carpentieri
 """
 
 # The overall time complexity of this program is O(n^2)
+# The overall space complexity for this program is O(n)
 
 from Hashtable import HashTable
 from Package import Package
@@ -39,6 +40,7 @@ time_count2 = datetime.datetime.strptime('9:05:00', '%H:%M:%S')
 
 # Package Hashtable: key = package id, value = Package object
 # time complexity: O(n)  time will increase linearly with increased packages
+# space complexity: O(n)  space will increase linearly with increased packages
 with open('PackageCSV.csv') as csv_file:
     readCSV = csv.reader(csv_file)
     for row in readCSV:
@@ -47,7 +49,8 @@ with open('PackageCSV.csv') as csv_file:
         package_amount += 1
 
 # Hashtable Distance Index: key = package address, value = index of package in Distance
-# time complexity O(n)   time will increase linearly with increased addresses
+# time complexity O(n)  time will increase linearly with increased addresses
+# Space complexity O(n)  space will increase linearly with increased addresses
 with open('AddressCSV.csv') as csv_file:
     readCSV = csv.reader(csv_file)
     for row in readCSV:
@@ -55,6 +58,7 @@ with open('AddressCSV.csv') as csv_file:
 
 # create a 2D array of distance values
 # time complexity O(n)   time will increase linearly with increased distances
+# space complexity O(n)  space will increase linearly with increased distances
 file_CSV = open('DistanceCSV.csv')
 data_CSV = csv.reader(file_CSV)
 list_CSV = list(data_CSV)
@@ -135,6 +139,7 @@ def getstatus():
 
 # changes package status to delivered
 # time complexity: O(1)  hashtable lookup and insert have a constant time
+# space complexity: O(1)  insert occurs once per function call
 def status_delivered(package_id, truck_id):
     package_id = str(package_id)
     package = package_hashtable.get(package_id)
@@ -148,6 +153,7 @@ def status_delivered(package_id, truck_id):
 
 # changes package status to en route
 # time complexity: O(1)   hashtable look up and insert has a constant time
+# space complexity: O(1)  insert occurs once per function call
 def status_enroute(package_id):
     package_id = str(package_id)
     package = package_hashtable.get(package_id)
@@ -196,10 +202,11 @@ lastDelivered = 0
 
 # while there are
 # packages in truck 1
-# time complexity: O(n^2)  The time will go quadratically as more packages are added. The first loop, while loop,
+# time complexity: O(n^2)  The time will increase quadratically as more packages are added. The first loop, while loop,
 # continues while there are packages in the truck, the second loop inside the first loop occurs from the functions
 # getstatus, nearest_neighbor_package, nearest_neighbor_distance, start_delivery_package, where each of these functions
 # loop through lists of packages. A loop inside of another loop will grow quadratically.
+# space complexity: O(n)  space will increase linearly as more packages are added.
 while truck1:
 
     if t1Distance == 0:
@@ -226,8 +233,9 @@ while truck1:
         t1Distance += nextDistance
         time_count = add_time(time_count, nextDistance)
 
-# time complexity: O(n^2)  The time will go quadratically as more packages are added. Explanation can be found above
-# while loop of truck 1.
+# time complexity: O(n^2)  The time will increase quadratically as more packages are added. Explanation can be
+# found above while loop of truck 1.
+# space complexity: O(n)  The space will increase linearly as more packages are added.
 while truck2:
 
     if t2Distance == 0:
@@ -264,6 +272,7 @@ while truck2:
 
 # time complexity: O(n^2)  The time will go quadratically as more packages are added. Explanation can be found above
 # while loop of truck 1.
+# space complexity: O(n)  the space will increase linearly as more packages are added.
 while truck3:
 
     if t3Distance == 0:
